@@ -1,0 +1,1 @@
+## This app demonstrates how to handle notifications from backend to frontend
