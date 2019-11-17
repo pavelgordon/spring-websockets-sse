@@ -1,0 +1,38 @@
+<html>
+<head>
+
+</head>
+<body></body>
+<script>
+    function loadEvents() {
+
+        this.start = function () {
+            this.source = new EventSource("/events/stream");
+            this.source.addEventListener("message", function (e) {
+                // These events are JSON, so parsing and DOM fiddling are needed
+                var event = JSON.parse(e.data);
+                console.log(event.payload + " " + event.timestamp);
+            });
+
+            this.source.onerror = function () {
+                this.close();
+            };
+        };
+
+        this.stop = function () {
+            this.source.close();
+        }
+    }
+
+    loadEvents();
+    /*
+    * Register callbacks for starting and stopping the SSE controller.
+    */
+    window.onload = function () {
+        comment.start();
+    };
+    window.onbeforeunload = function () {
+        comment.stop();
+    }
+</script>
+</html>
